@@ -1,0 +1,36 @@
+<% provide(:title, "Invite") %>
+<h1>Invitations</h1>
+
+<div class="row">
+	<div class="col-md-4 col-md-offset-4">
+		<%= form_for(:invite, url: search_path) do |f| %>
+			<%= f.label :name %>
+			<%= f.text_field :name, class: "form-control" %>
+
+			<%= f.submit "Search", class: "btn btn-primary" %>
+		<% end %>
+	</div>
+
+	<% if !(flash[:invite].nil?) %>
+		<div class="col-md-6 col-md-offset-3">
+			<ul>
+				<% flash[:invite].each do |id_hash| %>
+					<li>
+						<%= form_for(:invite, url: invitations_path) do |f| %>
+							<div class="row">
+								<div class="col-md-8">
+									<% user = User.find_by(id: id_hash['id'].to_i) %>
+									<%= user.name %>
+								</div>
+								<div class="col-md-4">
+									<%= f.hidden_field :id, :value => user.id %>
+									<%= f.submit "Invite", class: "btn btn-primary" %>
+								</div>
+							</div>
+						<% end %>
+					</li>
+				<% end %>
+			</ul>
+		</div>
+	<% end %>
+</div>
