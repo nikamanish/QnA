@@ -11,6 +11,7 @@ class GroupsController < ApplicationController
   		flash[:success] = "New group #{@group.name} successfully created"
       membership = Membership.new(user_id: @user.id, group_id: @group.id, admin: true)
       membership.save
+      session[:group_id] = @group.id
   		redirect_to @user
   	else
   		render "new"

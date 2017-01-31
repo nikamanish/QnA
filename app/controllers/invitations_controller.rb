@@ -11,8 +11,14 @@ class InvitationsController < ApplicationController
   end
 
   def create
-  	user = User.find_by(id: params[:invite][:id])
-  	
+  	receiver_id = params[:invite][:id]
+  	group_id = params[:invite][:group_id].to_i
+  	sender_id = current_user.id
+
+  	invitation = Invitation.new(sender_id: sender_id, receiver_id: receiver_id, group_id: group_id)
+  	invitation.save
+  	redirect_to current_user
+
   end
 
   def show
