@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170131132445) do
+ActiveRecord::Schema.define(version: 20170131172611) do
 
   create_table "groups", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -31,6 +31,16 @@ ActiveRecord::Schema.define(version: 20170131132445) do
     t.index ["sender_id"], name: "fk_rails_892c9262cb", using: :btree
   end
 
+  create_table "memberships", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "user_id"
+    t.integer  "group_id"
+    t.boolean  "admin",      default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.index ["group_id"], name: "fk_rails_aaf389f138", using: :btree
+    t.index ["user_id"], name: "fk_rails_99326fb65d", using: :btree
+  end
+
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.string   "email"
@@ -44,4 +54,6 @@ ActiveRecord::Schema.define(version: 20170131132445) do
   add_foreign_key "invitations", "groups"
   add_foreign_key "invitations", "users", column: "receiver_id"
   add_foreign_key "invitations", "users", column: "sender_id"
+  add_foreign_key "memberships", "groups"
+  add_foreign_key "memberships", "users"
 end

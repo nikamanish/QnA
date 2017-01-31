@@ -23,6 +23,7 @@ gem 'coffee-rails', '~> 4.2'
 
 #Bootstrap
 gem 'bootstrap-sass', '3.3.6'
+gem 'hirb'
 
 #BCrypt
 gem 'bcrypt',         '3.1.11'
