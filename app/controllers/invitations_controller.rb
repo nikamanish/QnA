@@ -18,9 +18,18 @@ class InvitationsController < ApplicationController
   	invitation = Invitation.new(sender_id: sender_id, receiver_id: receiver_id, group_id: group_id)
   	invitation.save
   	redirect_to current_user
-
   end
 
-  def show
+  def respond
+  	id = params[:invite][:id].to_i
+  	group_id = params[:invite][:group_id].to_i
+  	invitation = Invitation.find_by(id: id)
+  	invitation.update_attribute(:accepted, true)  	
+
+  	if params[:commit] == "Yes"
+  		membership = Membership.new(user_id: current_user.id, group_id: group_id)
+  		membership.save
+  	end
+  	redirect_to current_user
   end
 end

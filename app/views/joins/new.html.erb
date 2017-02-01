@@ -1,0 +1,37 @@
+<% provide(:title, "Join Group") %>
+<h1>Join Groups</h1>
+
+<div class="row">
+	<div class="col-md-4 col-md-offset-4">
+		<%= form_for(:join, url: group_search_path) do |f| %>
+			<%= f.label :name %>
+			<%= f.text_field :name, class: "form-control" %>
+
+			<%= f.submit "Search Group", class: "btn btn-primary" %>
+		<% end %>
+	</div>
+
+	<% if !(flash[:join].nil?) %>
+		<div class="col-md-4 col-md-offset-4">
+			
+			<%= form_for(:join, url: joins_path) do |f| %>
+				<ul>
+					<% flash[:join].each do |id_hash| %>
+						<li>
+							<div class="row">
+								<div class="col-md-8">
+									<% group = Group.find_by(id: id_hash['id'].to_i) %>
+									<%= group.name %>
+								</div>
+								<div class="col-md-4">
+									<%= f.hidden_field :id, :value => group.id %>
+									<%= f.submit "Join", class: "btn btn-primary" %>
+								</div>
+							</div>
+						</li>
+					<% end %>
+				</ul>
+			<% end %>
+		</div>
+	<% end %>
+</div>

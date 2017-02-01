@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170131172611) do
+ActiveRecord::Schema.define(version: 20170131222606) do
 
   create_table "groups", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -41,6 +41,16 @@ ActiveRecord::Schema.define(version: 20170131172611) do
     t.index ["user_id"], name: "fk_rails_99326fb65d", using: :btree
   end
 
+  create_table "requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "sender_id"
+    t.integer  "group_id"
+    t.boolean  "granted"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "fk_rails_16b605658f", using: :btree
+    t.index ["sender_id"], name: "fk_rails_dafc123fb2", using: :btree
+  end
+
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.string   "email"
@@ -56,4 +66,6 @@ ActiveRecord::Schema.define(version: 20170131172611) do
   add_foreign_key "invitations", "users", column: "sender_id"
   add_foreign_key "memberships", "groups"
   add_foreign_key "memberships", "users"
+  add_foreign_key "requests", "groups"
+  add_foreign_key "requests", "users", column: "sender_id"
 end
