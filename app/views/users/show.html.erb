@@ -1,1 +1,32 @@
-<%= @user.name %>, <%= @user.email %>
+<% provide(:title, @user.name) %>
+
+<h1>Hi, <%= @user.name %></h1>
+
+<div class="card">
+				<div class="card-header">
+					Featured
+				</div>
+				<div class="card-block">
+					<h4 class="card-title">Special title treatment</h4>
+					<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+					<a href="#" class="btn btn-primary">Go somewhere</a>
+				</div>
+			</div>
+
+<div class="row">
+	
+	<% groups = Group.joins(:memberships).where("user_id = #{current_user.id}") %>
+	<% groups.each do |group| %>
+		
+			
+
+			<div class="card col-md-4">
+				<div class="card-block">
+					<h4 class="card-title"><%= group.name %></h4>
+					<h6 class="card-subtitle mb-2 text-muted"><%= group['admin'] == true ? "Admin" : "Member" %></h6>
+					
+					<%= link_to "Visit", Group.find_by(id: group.id), class: "card-link btn btn-primary" %>
+				</div>
+			</div>
+	<% end %>
+</div>

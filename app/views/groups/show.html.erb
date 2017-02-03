@@ -1,2 +1,58 @@
-<h1>Groups#show</h1>
-<p>Find me in app/views/groups/show.html.erb</p>
+<% group = Group.find(params[:id]) %>
+<% provide(:title, group.name) %>
+
+<h1><%= group.name %></h1>
+
+<div class="row">
+	<div class="col-md-4 offset-md-4">
+		<%= form_for( :post, url: posts_new_path ) do |f| %>
+			<%= f.hidden_field :group_id, :value => group.id %>
+			<%= f.label "Subject" %>
+			<%= f.text_area :subject, class: "form-control" %>
+			
+			<%= f.label "Content"%>
+			<%= f.text_area :content, class: "form-control" %>
+			<%= f.submit "Post", class: "btn btn-primary" %>
+		<% end %>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-6 offset-md-3">
+		<% posts = Membership.joins(:group).where(group_id: group.id).joins("INNER JOIN posts on memberships.id = posts.membership_id").select("content, posts.created_at, subject, posts.id").order("posts.created_at DESC") %>
+		<ul>
+
+			<% posts.each do |post| %>
+				<li>
+					<div class="row">
+					
+						<%= post['subject'] %>
+						<br>
+						<%= 'Posted ' + time_ago_in_words(post['created_at']) + ' ago' %>
+						<br>
+						<%= post['content'] %>
+					</div>
+					<div class="row">
+						<% comments = Comment.where("post_id = ?", post.id) %>
+						<%= "Comments:" %>
+						<br>
+						<% comments.each do |comment| %>
+							<%= comment.content %>
+							<br>
+						<% end %>
+
+						<%= form_for(:comment,url: comments_new_path) do |f| %>
+							<%= f.hidden_field :post_id, :value => post.id %>
+							<%= f.hidden_field :group_id, :value => params[:id] %>
+
+							<%= f.label :comment %>
+							<%= f.text_area :comment, class: "form-control" %>
+
+							<%= f.submit "Comment", class: "btn-primary btn" %>
+						<% end %>
+					</div>
+				</li>				
+			<% end %>
+		</ul>
+	</div>
+</div>

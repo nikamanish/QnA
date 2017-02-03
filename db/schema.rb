@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170131222606) do
+ActiveRecord::Schema.define(version: 20170202130606) do
+
+  create_table "comments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "post_id"
+    t.text     "content",    limit: 65535
+    t.integer  "likes",                    default: 0
+    t.integer  "user_id"
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+    t.index ["post_id"], name: "fk_rails_2fd19c0db7", using: :btree
+    t.index ["user_id"], name: "fk_rails_03de2dc08c", using: :btree
+  end
 
   create_table "groups", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -41,6 +52,17 @@ ActiveRecord::Schema.define(version: 20170131222606) do
     t.index ["user_id"], name: "fk_rails_99326fb65d", using: :btree
   end
 
+  create_table "posts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.text     "content",       limit: 65535
+    t.integer  "membership_id"
+    t.integer  "upvotes",                     default: 0
+    t.integer  "downvote",                    default: 0
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.text     "subject",       limit: 65535
+    t.index ["membership_id"], name: "fk_rails_56160f5775", using: :btree
+  end
+
   create_table "requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "sender_id"
     t.integer  "group_id"
@@ -61,11 +83,14 @@ ActiveRecord::Schema.define(version: 20170131222606) do
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
   end
 
+  add_foreign_key "comments", "posts"
+  add_foreign_key "comments", "users"
   add_foreign_key "invitations", "groups"
   add_foreign_key "invitations", "users", column: "receiver_id"
   add_foreign_key "invitations", "users", column: "sender_id"
   add_foreign_key "memberships", "groups"
   add_foreign_key "memberships", "users"
+  add_foreign_key "posts", "memberships"
   add_foreign_key "requests", "groups"
   add_foreign_key "requests", "users", column: "sender_id"
 end

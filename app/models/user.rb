@@ -3,6 +3,10 @@ class User < ApplicationRecord
 
 	has_many :memberships, dependent: :destroy
 	has_many :groups, :through => :memberships
+	has_many :comments, dependent: :destroy
+	has_many :invites, :class_name => 'Invitation', :foreign_key => 'sender_id', dependent: :destroy
+	has_many :invitations, :class_name => 'Invitation', :foreign_key => 'receiver_id', dependent: :destroy
+	has_many :requests,:class_name => 'Request', :foreign_key => 'sender_id', dependent: :destroy
 
 	attr_accessor :remember_token
 	VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i

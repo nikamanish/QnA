@@ -22,7 +22,10 @@ gem 'coffee-rails', '~> 4.2'
 # gem 'therubyracer', platforms: :ruby
 
 #Bootstrap
-gem 'bootstrap-sass', '3.3.6'
+gem 'bootstrap', '~> 4.0.0.alpha6'
+gem 'sprockets-rails', :require => 'sprockets/railtie'
+
+
 gem 'hirb'
 
 #BCrypt

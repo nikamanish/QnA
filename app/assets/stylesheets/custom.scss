@@ -1,10 +1,10 @@
-@import "bootstrap-sprockets";
 @import "bootstrap";
 
 /* mixins, variables, etc. */
 
 $gray-medium-light: #eaeaea;
-$primary: #424242;
+$primary: #009688;
+$primary-dark: #00796B;
 $state-danger-text: #ff0000;
 
 @mixin box_sizing {
@@ -17,7 +17,7 @@ $state-danger-text: #ff0000;
 /* universal */
 
 body {
-  padding-top: 60px;
+  background-color: #ddd
 }
 
 section {
@@ -79,19 +79,6 @@ p {
   }
 }
 
-.navbar {
-	background-color: $primary;
-	li{
-		a{
-			color: #fff
-		}
-
-		a:hover{
-			color: #bbb;
-			background: $primary;
-		}
-	}
-}
 
 /* footer */
 
@@ -99,12 +86,12 @@ footer {
   margin-top: 45px;
   padding-top: 5px;
   border-top: 1px solid $gray-medium-light;
-  color: $gray-light;
+  
 
   a {
     color: $gray;
     &:hover {
-      color: $gray-darker;
+      
     }
   }
   small {
@@ -144,26 +131,11 @@ input {
 }
 
 .field_with_errors {
-  @extend .has-error;
+ 
   .form-control {
     color: $state-danger-text;
+    border-color: $state-danger-text;
   }
-}
-
-/* dropdown */
-
-.dropdown-menu {
-	background-color: #444;
-	li > a:hover {
-		background-color: #888;
-		color: #fff;
-	}	
-}
-
-li.open{
-	a.dropdown-toggle{
-		background-color: #666 !important;
-	}
 }
 
 /* checkbox */
@@ -180,4 +152,10 @@ li.open{
 #session_remember_me {
   width: auto;
   margin-left: 0;
+}
+
+/* users and groups */
+
+.card{
+  background-color: #fff;
 }

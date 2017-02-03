@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  
+  get 'comments/new'
+  post 'comments/new', to: 'comments#create'
+
   get 'joins/new'
   get 'joins/show'
 
@@ -25,9 +29,16 @@ Rails.application.routes.draw do
   resources :groups
   resources :invitations
 	resources :joins
+  resources :comments
+  
 
   post '/respond', to: 'invitations#respond'
   post '/requests', to: 'joins#respond'
+
+  get 'posts/new'
+  post 'posts/new', to: 'posts#create'
+  get 'posts/show'
+
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
